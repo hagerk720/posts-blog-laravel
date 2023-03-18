@@ -47,8 +47,6 @@ class PostController extends Controller
     }
     public function store(){    
         return redirect() -> route('posts.index');
-        // return view('post.index', ['posts' => $this-> allPosts]);
-
     }
     public function update()
     {
