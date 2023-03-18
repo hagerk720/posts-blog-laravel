@@ -11,7 +11,7 @@
     <table class="table mt-4 ">
         <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">ID</th>
             <th scope="col">Title</th>
             <th scope="col">Posted By</th>
             <th scope="col">Created At</th>
