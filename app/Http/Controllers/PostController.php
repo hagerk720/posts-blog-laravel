@@ -2,54 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public $allPosts = [
-        [
-            'id' => 1,
-            'title' => 'Laravel',
-            'posted_by' => 'Hager',
-            'created_at' => '2022-08-01 10:00:00',
-            'description' => 'hello description'
-        ],
-
-        [
-            'id' => 2,
-            'title' => 'PHP',
-            'posted_by' => 'Mariam',
-            'created_at' => '2022-08-01 10:00:00',
-            'description' => 'hello description'
-        ],
-
-        [
-            'id' => 3,
-            'title' => 'Javascript',
-            'posted_by' => 'Alaa',
-            'created_at' => '2022-08-01 10:00:00',
-            'description' => 'hello description'
-        ],
-    ];
+    
     public function index()
     {
-        return view('post.index', ['posts' => $this-> allPosts]);
+        $allPosts = Post::all();
+        // dd($allPosts);
+        return view('post.index', ['posts' => $allPosts]);
     }
     public function show($id)
     {     
-        return view('post.show', ['post' => $this->allPosts[$id-1]]);
+        $post = Post::find($id);
+        return view('post.show', ['post' => $post]);
     }
     public function create(){
-        return view('post.create');
+        $users = User::all();
+
+        return view('post.create' ,['users' => $users]);
     }
     public function edit($id){
-        return view('post.edit' ,['post' => $this-> allPosts[$id-1]]);
+        $post = Post::find($id);
+        return view('post.edit', ['post' => $post]);
     }
-    public function store(){    
+    public function store(Request $request){    
+        $title = $request-> title ; 
+        $description = $request-> description ; 
+        $createdBy = $request-> creator ; 
+        Post::create([
+           'title'=>$title,
+           'description'=>$description,
+           'user_id'=>$createdBy 
+        ]);
         return redirect() -> route('posts.index');
     }
-    public function update()
+    public function update($id )
     {
+        $title = request()-> title ; 
+        $description = request()-> description ; 
+        $createdBy = request()-> creator ; 
+        Post::where('id', $id )->update([
+            'title'=>$title,
+            'description'=>$description,
+           'user_id'=>$createdBy 
+        ]);
         return redirect() -> route('posts.index');
     }
+    public function delete($id)
+    {
+        Post::where('id', $id)->delete();
+        return redirect() -> route('posts.index');
+    }
+    
 }
