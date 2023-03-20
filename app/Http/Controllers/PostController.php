@@ -20,11 +20,6 @@ class PostController extends Controller
     public function show($id)
     {     
         $post = Post::find($id);
-        // $comments = Comment::where('post_id', $id )->get();
-        // foreach ($post->comments as $comment) {
-        //     // ...
-        // }
-        // dd($post->comments);
         return view('post.show', ['post' => $post]  );
     }
     public function create(){
@@ -51,11 +46,11 @@ class PostController extends Controller
         ]);
         return redirect() -> route('posts.index');
     }
-    public function update($id )
+    public function update(StorePostRequest $request ,$id )
     {
-        $title = request()-> title ; 
-        $description = request()-> description ; 
-        $createdBy = request()-> creator ; 
+        $title = $request-> title ; 
+        $description = $request-> description ; 
+        $createdBy = $request-> creator ; 
         Post::where('id', $id )->update([
             'title'=>$title,
             'description'=>$description,

@@ -9,7 +9,7 @@
         </a>
     </div>
     <div>
-        
+
     <table class="table mt-4 ">
         <thead>
         <tr>
@@ -37,6 +37,8 @@
         @endforeach
         </tbody>
     </table>
+
+
     <div class="d-flex">
     {!! $posts->links() !!}
     </div>

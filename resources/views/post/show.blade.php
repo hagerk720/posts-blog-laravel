@@ -20,7 +20,9 @@
             <h5 class="card-title">Created By : {{$post->user->name}}</h5>
         </div>
     </div>
-    <p>
+    @livewire('add-comment' , ['post'=>$post])
+
+    <!-- <p>
 </div> 
 `<button class="btn btn-success mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
     Add Comment
@@ -40,9 +42,10 @@
 </form>
 
   </div>
-</div> 
-<section style="">
-  <div class="">
+</div>  -->
+     @livewire('comments-list' , ['post'=>$post])
+<!-- <section >
+  <div >
     <div class="row d-flex justify-content-center">
       <div class="col-md-12 col-lg-10">
         <div class="card text-dark">
@@ -64,7 +67,6 @@
                     @method('delete')
                     <button type="submit" class="btn bg-transparent ">❌</button>
                   </form>
-                  <!-- <a href="{{route('comments.delete' ,  [$post->id , $comment->id])}}" class="link-muted text-decoration-none">❌</a> -->
                 </div>  
                </div>
               <p class="mb-2">
@@ -81,6 +83,6 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 @endsection
