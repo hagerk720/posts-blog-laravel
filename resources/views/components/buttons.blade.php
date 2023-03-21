@@ -1,3 +1,3 @@
 
-<a   {{$attributes }} class="btn btn-{{$type}}">{{ $value }}</a>
+<a   {{$attributes }} class="btn btn-outline-{{$type}}">{{ $value }}</a>
 

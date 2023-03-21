@@ -1,13 +1,8 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('title') Index @endsection
 
 @section('content')
-    <div class="text-center">
-        <a href="{{route('posts.create')}}">
-        <button type="button" class="mt-4 btn btn-success">Create Post</button>
-        </a>
-    </div>
     <div>
 
     <table class="table mt-4 ">
@@ -30,7 +25,7 @@
                 <td>
                     <x-buttons href="{{route('posts.show', $post['id'])}}" type="info" value="View" />
                     <x-buttons href="{{route('posts.edit', $post['id'])}}" type="primary" value="Edit" />
-                    <x-buttons type="danger" value="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-target="$post->id"/> 
+                    <x-buttons type="danger" value="delete" data-bs-toggle="modal" data-bs-target="#modal{{ $post->id}}" /> 
                     
                 </td>
             </tr>
@@ -39,7 +34,7 @@
     </table>
 
 
-    <div class="d-flex">
+    <div class="d-flex justify-content-center">
     {!! $posts->links() !!}
     </div>
     </div>
@@ -49,7 +44,7 @@
 
 @section('modal')
         <!-- @foreach($posts as $post) -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modal{{$post->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                      <div class="modal-content">
                         <div class="modal-header">
