@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +29,8 @@ Route::group(['middleware' =>[ 'auth']],function(){
     Route::get('/posts/{post}/restore', [PostController::class, 'restore'])->name('posts.restore');
     Route::post('/posts/{post}', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/posts/{post}/{comment}/', [CommentController::class, 'delete'])->name('comments.delete');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 Route::group(['middleware' =>['XssSanitization'  , 'auth']] , function(){
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');

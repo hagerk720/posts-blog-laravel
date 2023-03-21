@@ -4,11 +4,7 @@
 @section('title') Index @endsection
 
 @section('content')
-    <div class="text-center">
-        <a href="{{route('posts.create')}}">
-        <button type="button" class="mt-4 btn btn-success">Create Post</button>
-        </a>
-    </div>
+
     <div>
         
     <table class="table mt-4 ">

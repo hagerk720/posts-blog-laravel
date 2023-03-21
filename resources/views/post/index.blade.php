@@ -6,7 +6,7 @@
     <div>
 
     <table class="table mt-4 ">
-        <thead>
+        <thead class="table-dark">
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Title</th>
