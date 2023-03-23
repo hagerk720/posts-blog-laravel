@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
+use App\Jobs\PruneOldPostsJob;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
@@ -57,10 +58,6 @@ class PostController extends Controller
             $post->image =  $request->file('image');
         }
         $post->save();
-        // $post->update(['image' => $request->file('image'),
-        //     'title' => $request->title,
-        //     'description' => $request->description,
-        //     'user_id' => $request->creator]);
         return redirect() -> route('posts.index');
     }
     public function delete($id)
@@ -81,5 +78,10 @@ class PostController extends Controller
         $post->detachTag($tag);
 
         return redirect()->back()->with('success', 'Tag detached successfully.');
+    }
+    public function deleteOldPosts()
+    {
+        dispatch(new PruneOldPostsJob());
+        return redirect()->back()->with('message', 'Old posts have been deleted.');
     }
 }

@@ -32,6 +32,7 @@ Route::group(['middleware' =>[ 'auth']],function(){
     Route::delete('/posts/{post}/tags/{tag}', [PostController::class, 'detachTag'])->name('post.tags.detach');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/deleteOldPosts', [PostController::class, 'deleteOldPosts'])->name('posts.deleteOldPosts');
 });
 Route::group(['middleware' =>['XssSanitization'  , 'auth']] , function(){
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
