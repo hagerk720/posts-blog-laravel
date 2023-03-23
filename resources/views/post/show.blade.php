@@ -18,13 +18,6 @@
           @foreach ($post->tags as $tag)
             <li class="tag-item d-flex">
               {{ $tag->name }}
-              <form method="POST" action="">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="delete-button">
-                  <i class="fa fa-times"></i>
-                </button>
-              </form>
             </li>
           @endforeach
         </ul>
