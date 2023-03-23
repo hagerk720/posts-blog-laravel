@@ -29,4 +29,20 @@ class ProfileController extends Controller
         $user->save();
     return redirect()->back()->with('message', 'user profile updated successfully'); 
     }
+    public function store(Request $request)
+    {
+        $user = auth()->user();
+        $mediaItems = $user->profile->getMedia('profile_image');
+
+        foreach ($mediaItems as $media) {
+            $media->delete();
+            }
+        if ($request->hasFile('profile_image')) {
+            $user->profile
+            ->addMediaFromRequest('profile_image')
+            ->toMediaCollection('profile_image');   
+            }
+        
+        return redirect()->back()->with('success', 'Profile image uploaded successfully.');
+    }
 }

@@ -13,11 +13,23 @@
         {{session('message')}}
        </div>
       @endif
-       <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" style="width: 150px;"
-  alt="Avatar" /> 
-   <button class="btn btn-warning mt-2" type="submit"> upload</button>
+      <!-- Upload Image -->
+      @if($user->profile)
+      @if ($user->profile->hasMedia('profile_image'))
+        <img src="{{asset($user->profile->getFirstMediaUrl('profile_image')) }}" alt="Profile Image" class="rounded-circle mb-3" style="width: 150px; height:150px; object-fit: cover;">
+      @endif
+      @endif
+      <form action="{{ route('profile.image.store') }}" method="POST" enctype="multipart/form-data">
+          @csrf
+         <!-- <input type="file" name="profile_image"> -->
+         <div class="custom-file">
+         <input type="file" class="" id="customFile" name="profile_image">
+        </div>
+         <button class="btn btn-warning mt-2" type="submit"> upload</button>
+      </form>
+   
      </div>
-
+    <!-- Edit Profile -->
 <form action="{{ url('profile')}}" method="post" class="w-100 d-flex flex-column" >  
   @csrf 
     <table class="table table-borderless">
@@ -36,7 +48,7 @@
     <tr>
       <th scope="row"></th>
       <td class="h1">Address</td>
-      <td><input type="text" class="form-control" id="exampleFormControlInput1"  name="address" value="{{$user->profile->address}}"></td>
+      <td><input type="text" class="form-control" id="exampleFormControlInput1"  name="address" value="{{$user->profile ? $user->profile->address : '' }}"></td>
     </tr>
     <!-- <tr>
       <th scope="row"></th>

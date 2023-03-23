@@ -4,6 +4,12 @@
 @section('title')Create @endsection
 
 @section('content')
+@if(session('update'))
+      <div class="alert alert-success">
+        {{session('update')}}
+       </div>
+
+@endif
 <form method="post" action="{{ route('posts.update' ,  [$post->id] ) }}" class="d-flex flex-column " enctype="multipart/form-data">
     @csrf
     @method('patch')
@@ -26,10 +32,17 @@
             <option value="{{$post['user_id']}}">{{$post->user->name}}</option>
         </select>
     </div>
-    <div class="post-tags">
+    <div class="form-group">
+      <label for="postTitleInput">Tags</label>
+      <input type="text" class="form-control" id="postTitleInput" name="tags">
+    </div>
+
+    <button type="submit" class="btn btn-outline-success align-self-center w-25 mt-2">Update</button>
+</form>
+<div class="post-tags">
         <ul class="tag-list d-flex">
           @foreach ($post->tags as $tag)
-            <li class="tag-item d-flex">
+            <li class="tag-item d-flex m-1">
               {{ $tag->name }}
               <form method="POST" action="{{ route('post.tags.detach', [$post->id, $tag->id]) }}">
                 @csrf
@@ -42,8 +55,6 @@
           @endforeach
         </ul>
       </div>
-    <button type="submit" class="btn btn-success align-self-center w-25">Update</button>
-</form>
 @endsection
 @if ($errors->any())
     <div class="alert alert-danger">

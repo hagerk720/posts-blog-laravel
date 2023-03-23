@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -81,13 +82,20 @@
 
           </div>
           <div class="offcanvas-body d-flex align-items-center flex-column">
-          <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle mb-3" style="width: 150px;"
-             alt="Avatar" /> 
-            <a class="list-group-item list-group-item-action border-success border-4 mb-3" href="{{route('profile.index')}}">Profile</a>
-            <a class="list-group-item list-group-item-action border-success border-4 mb-3" href="{{route('posts.create')}}"> Create Post</a>
-            <a class="list-group-item list-group-item-action border-success border-4 mb-3" href="{{route('posts.index')}}">All Posts</a>
-            <a class="list-group-item list-group-item-action border-success border-4 mb-3" href="{{route('posts.deleted-posts')}}">Deleted Posts</a>
-            <a class="list-group-item list-group-item-action border-success border-4 mb-3" href="{{route('posts.deleteOldPosts')}}">Deleted Old Posts</a>
+          <!-- <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle mb-3" style="width: 150px;"
+             alt="Avatar" />  -->
+             @if(Auth::user())
+             @if(Auth::user()->profile)
+             @if (Auth::user()->profile->hasMedia('profile_image'))
+             <img src="{{asset(Auth::user()->profile->getFirstMediaUrl('profile_image')) }}" alt="Profile Image" class="rounded-circle mb-3" style="width: 150px; height:150px; object-fit: cover;">
+             @endif
+             @endif
+             @endif
+            <a class="list-group-item list-group-item-action border-success border-4 mb-3 " href="{{route('profile.index')}}">Profile</a>
+            <a class="list-group-item list-group-item-action border-success border-4 mb-3 " href="{{route('posts.create')}}"> Create Post</a>
+            <a class="list-group-item list-group-item-action border-success border-4 mb-3 " href="{{route('posts.index')}}">All Posts</a>
+            <a class="list-group-item list-group-item-action border-success border-4 mb-3 " href="{{route('posts.deleted-posts')}}">Deleted Posts</a>
+            <a class="list-group-item list-group-item-action border-success border-4 mb-3 " href="{{route('posts.deleteOldPosts')}}">Deleted Old Posts</a>
           
            </div>
         </div>

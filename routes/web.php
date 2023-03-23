@@ -33,6 +33,7 @@ Route::group(['middleware' =>[ 'auth']],function(){
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/deleteOldPosts', [PostController::class, 'deleteOldPosts'])->name('posts.deleteOldPosts');
+    Route::post('/profile/image', [ProfileController::class, 'store'])->name('profile.image.store');
 });
 Route::group(['middleware' =>['XssSanitization'  , 'auth']] , function(){
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');

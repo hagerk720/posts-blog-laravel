@@ -51,15 +51,20 @@ class Post extends Model
 
         parent::boot();
         static::deleting(function ($post) {
-            Storage::delete($post->image);
+            if ($post->image) {
+             Storage::delete($post->image);
+                }
         });
         static::updating(function ($post) {
-            $originalImagePath = $post->getOriginal('image');
-            $newImagePath = $post->getAttribute('image');
+        if ($post->image) {
+             $originalImagePath = $post->getOriginal('image');
+             $newImagePath = $post->getAttribute('image');
             if ($originalImagePath != $newImagePath) {
-                // dd("original image" , $originalImagePath , "new " , $newImagePath);
-                 Storage::delete($originalImagePath);
+             // dd("original image" , $originalImagePath , "new " , $newImagePath);
+                if($originalImagePath)
+                    Storage::delete($originalImagePath);
             }
+        }
         });
     }
 

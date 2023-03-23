@@ -49,16 +49,20 @@ class PostController extends Controller
     }
     public function update(StorePostRequest $request ,$id )
     {
-       
         $post = Post::find($id);
         $post->title = $request->title;
         $post->description = $request->description;
         $post->user_id = $request->creator;
+        if ($request ->tags) {
+             $tagNames  = explode(",", $request ->tags);
+            }
         if($request->hasFile('image')){
             $post->image =  $request->file('image');
         }
         $post->save();
-        return redirect() -> route('posts.index');
+        $tags = Tag::findOrCreate($tagNames);
+        $post -> attachTags($tags);
+        return redirect() -> back()->with('updated','post updated successfully');
     }
     public function delete($id)
     {

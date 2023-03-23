@@ -5,7 +5,7 @@
 @section('content')
     <div>
 
-    <table class="table mt-4 ">
+    <table class="table mt-4 table-auto">
         <thead class="table-dark">
         <tr>
             <th scope="col">ID</th>
@@ -23,13 +23,13 @@
                 <td>{{$post['title']}}</td>
                 <td>{{$post->user->name}}</td>
                 <td>{{date('d-m-Y', strtotime($post->created_at)) }}</td>
-                <td>
-                    <x-buttons href="{{route('posts.show', $post['id'])}}" type="info" value="View" />
+                <td style="width: 300px;">
+                    <x-buttons href="{{route('posts.show', $post['id'])}}" type="success" value="View" />
                     <x-buttons href="{{route('posts.edit', $post['id'])}}" type="primary" value="Edit" />
                     <x-buttons type="danger" value="delete" data-bs-toggle="modal" data-bs-target="#modal{{ $post->id}}" /> 
                     
                 </td>
-                <td>{{$post['slug'] }}</td>
+                <td style="width:150px">{{$post['slug'] }}</td>
             </tr>
         @endforeach
         </tbody>
