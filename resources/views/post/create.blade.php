@@ -4,7 +4,12 @@
 
 @section('content')
 
+@if(session('message'))
+      <div class="alert alert-danger">
+        {{session('message')}}
+       </div>
 
+@endif
   <h1>Create a new post</h1>
   <form method="POST" action="{{ route('posts.store') }}" class="d-flex flex-column" enctype="multipart/form-data" >
   @csrf

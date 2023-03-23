@@ -7,6 +7,7 @@ use App\Jobs\PruneOldPostsJob;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use App\Rules\MaxPostsPerUser;
 use Illuminate\Http\Request;
 use Spatie\Tags\HasTags;
 use Spatie\Tags\Tag;
@@ -33,19 +34,27 @@ class PostController extends Controller
         $post = Post::find($id);
         return view('post.edit', ['post' => $post]);
     }
-    public function store(StorePostRequest $request){   
-        $post = new Post();
-        $post->title = $request->title;
-        $post->description = $request->description;
-        $post->user_id = $request->creator;   
-        $tagNames  = explode(",", $request ->tags);
-        if($request->hasFile('image')){
-            $post->image =  $request->file('image');
-        }
-        $post->save();
-        $tags = Tag::findOrCreate($tagNames);
-        $post -> attachTags($tags);
-        return redirect() -> route('posts.index');
+    public function store(StorePostRequest $request){  
+        $maxPosts=new MaxPostsPerUser(); 
+        
+if($maxPosts->passes('Max_Posts_Per_User',$request))
+ {
+    $post = new Post();
+    $post->title = $request->title;
+    $post->description = $request->description;
+    $post->user_id = $request->creator;
+    $tagNames  = explode(",", $request ->tags);
+    if ($request->hasFile('image')) {
+        $post->image =  $request->file('image');
+    }
+    $post->save();
+    $tags = Tag::findOrCreate($tagNames);
+    $post -> attachTags($tags);
+    return redirect() -> route('posts.index');
+}
+else{
+    return redirect() -> back()->with('message',$maxPosts->message());
+}
     }
     public function update(StorePostRequest $request ,$id )
     {
