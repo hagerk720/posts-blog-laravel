@@ -29,6 +29,7 @@ Route::group(['middleware' =>[ 'auth']],function(){
     Route::get('/posts/{post}/restore', [PostController::class, 'restore'])->name('posts.restore');
     Route::post('/posts/{post}', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/posts/{post}/{comment}/', [CommentController::class, 'delete'])->name('comments.delete');
+    Route::delete('/posts/{post}/tags/{tag}', [PostController::class, 'detachTag'])->name('post.tags.detach');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });

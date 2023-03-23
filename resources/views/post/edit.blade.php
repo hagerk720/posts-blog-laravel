@@ -4,12 +4,16 @@
 @section('title')Create @endsection
 
 @section('content')
-<form method="post" action="{{ route('posts.update' ,  [$post->id] ) }}">
+<form method="post" action="{{ route('posts.update' ,  [$post->id] ) }}" class="d-flex flex-column " enctype="multipart/form-data">
     @csrf
     @method('patch')
+    <img src="{{asset($post['image'])}}" alt="" class="img-fluid align-self-center">
+    <div class="form-group align-self-end">
+      <input type="file" class="form-control-file btn btn-outline-danger" id="postImageInput" name="image">
+    </div>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
-        <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="" value={{$post['title']}}>
+        <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="" value="{{$post['title']}}">
     </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
@@ -22,7 +26,23 @@
             <option value="{{$post['user_id']}}">{{$post->user->name}}</option>
         </select>
     </div>
-    <button type="submit" class="btn btn-success">Update</button>
+    <div class="post-tags">
+        <ul class="tag-list d-flex">
+          @foreach ($post->tags as $tag)
+            <li class="tag-item d-flex">
+              {{ $tag->name }}
+              <form method="POST" action="{{ route('post.tags.detach', [$post->id, $tag->id]) }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="delete-button">
+                  <i class="fa fa-times"></i>
+                </button>
+              </form>
+            </li>
+          @endforeach
+        </ul>
+      </div>
+    <button type="submit" class="btn btn-success align-self-center w-25">Update</button>
 </form>
 @endsection
 @if ($errors->any())

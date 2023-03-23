@@ -13,6 +13,7 @@
             <th scope="col">Posted By</th>
             <th scope="col">Created At</th>
             <th scope="col">Actions</th>
+            <th scope="col">slug</th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
                     <x-buttons type="danger" value="delete" data-bs-toggle="modal" data-bs-target="#modal{{ $post->id}}" /> 
                     
                 </td>
+                <td>{{$post['slug'] }}</td>
             </tr>
         @endforeach
         </tbody>

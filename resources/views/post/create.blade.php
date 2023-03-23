@@ -4,17 +4,22 @@
 
 @section('content')
 
-<form method="POST" action="{{ route('posts.store') }}">
-    @csrf
-    <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Title</label>
-        <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="">
-    </div>
-    <div class="mb-3">
-        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-        <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3"></textarea>
-    </div>
 
+  <h1>Create a new post</h1>
+  <form method="POST" action="{{ route('posts.store') }}" class="d-flex flex-column" enctype="multipart/form-data" >
+  @csrf
+    <div class="form-group">
+      <label for="postTitleInput">Post Title</label>
+      <input type="text" class="form-control" id="postTitleInput" name="title">
+    </div>
+    <div class="form-group">
+      <label for="postDescriptionInput">Post Description</label>
+      <textarea class="form-control" id="postDescriptionInput" rows="3"name="description"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="postTitleInput">Tags</label>
+      <input type="text" class="form-control" id="postTitleInput" name="tags">
+    </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Post Creator</label>
         <select name="creator" class="form-control">
@@ -23,8 +28,13 @@
             @endforeach
         </select>
     </div>
-    <button type="submit" class="btn btn-success">Create</button>
-</form>
+    <div class="form-group align-self-end">
+      <label for="postImageInput">Post Image</label>
+      <input type="file" class="form-control-file btn btn-outline-danger" id="postImageInput" name="image">
+    </div>
+    <button type="submit" class="btn btn-outline-success mt-4 fw-bold w-25 align-self-center">Create Post</button>
+  </form>
+
 @endsection
 @if ($errors->any())
     <div class="alert alert-danger">

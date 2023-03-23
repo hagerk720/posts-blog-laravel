@@ -13,6 +13,7 @@ class Comment extends Model
         'comment',
         'commentable_id',
         'commentable_type',
+        'user_id'
         
     ];
     // public function post(){

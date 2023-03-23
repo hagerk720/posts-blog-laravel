@@ -4,23 +4,34 @@
 @section('title') Show @endsection
 
 @section('content')
-    <div class="card mt-6">
-        <div class="card-header">
-            Post Info
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Title : {{$post['title']}}</h5>
-            <p class="card-text">Description : {{$post['description']}}</p>
-        </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 d-flex flex-column">
+      <h1>{{$post['title']}}</h1>
+      <p class="lead">{{$post['created_at']}}</p>
+      <img src="{{asset($post['image'])}}"  alt="" class="img-fluid align-self-center">
+      <hr>
+      <p>{{$post['description']}}</p>
+      <div class="post-tags">
+        <ul class="tag-list d-flex">
+          @foreach ($post->tags as $tag)
+            <li class="tag-item d-flex">
+              {{ $tag->name }}
+              <form method="POST" action="">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="delete-button">
+                  <i class="fa fa-times"></i>
+                </button>
+              </form>
+            </li>
+          @endforeach
+        </ul>
+      </div>
     </div>
-    <div class="card mt-6">
-        <div class="card-header">
-            Post Creator Info
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Created By : {{$post->user->name}}</h5>
-        </div>
-    </div>
+  </div>
+</div>
     @livewire('add-comment' , ['post'=>$post])
 
      @livewire('comments-list' , ['post'=>$post])

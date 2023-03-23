@@ -7,6 +7,8 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Tags\HasTags;
+use Spatie\Tags\Tag;
 
 class PostController extends Controller
 {
@@ -14,7 +16,7 @@ class PostController extends Controller
     public function index()
     {
         // $allPosts = Post::all();
-        $allPosts = Post::paginate(5);
+        $allPosts = Post::orderBy('id', 'desc')->paginate(5);
         return view('post.index', ['posts' => $allPosts]);
     }
     public function show($id)
@@ -31,30 +33,34 @@ class PostController extends Controller
         return view('post.edit', ['post' => $post]);
     }
     public function store(StorePostRequest $request){   
-        // $request->validate([
-        //     'title' =>'required|min:3|unique:posts,title',
-        //     'description' =>'required|min:10',
-        // ]); 
-        $title = $request-> title ; 
-        $description = $request-> description ; 
-        $createdBy = $request-> creator ; 
-        Post::create([
-           'title'=>$title,
-           'description'=>$description,
-           'user_id'=>$createdBy 
-        ]);
+        $post = new Post();
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->user_id = $request->creator;   
+        $tagNames  = explode(",", $request ->tags);
+        if($request->hasFile('image')){
+            $post->image =  $request->file('image');
+        }
+        $post->save();
+        $tags = Tag::findOrCreate($tagNames);
+        $post -> attachTags($tags);
         return redirect() -> route('posts.index');
     }
     public function update(StorePostRequest $request ,$id )
     {
-        $title = $request-> title ; 
-        $description = $request-> description ; 
-        $createdBy = $request-> creator ; 
-        Post::where('id', $id )->update([
-            'title'=>$title,
-            'description'=>$description,
-           'user_id'=>$createdBy 
-        ]);
+       
+        $post = Post::find($id);
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->user_id = $request->creator;
+        if($request->hasFile('image')){
+            $post->image =  $request->file('image');
+        }
+        $post->save();
+        // $post->update(['image' => $request->file('image'),
+        //     'title' => $request->title,
+        //     'description' => $request->description,
+        //     'user_id' => $request->creator]);
         return redirect() -> route('posts.index');
     }
     public function delete($id)
@@ -70,5 +76,10 @@ class PostController extends Controller
         Post::withTrashed()->find($id)->restore();
         return redirect() -> route('posts.index');
     }
-    
+    public function detachTag(Request $request,Post $post, Tag $tag)
+    {
+        $post->detachTag($tag);
+
+        return redirect()->back()->with('success', 'Tag detached successfully.');
+    }
 }

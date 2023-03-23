@@ -19,10 +19,7 @@
     <!-- Scripts -->
     <style>
     body{
-        /* display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh; */
+
         background-color: #BDCDD6;
     }
    </style>
@@ -77,16 +74,19 @@
             </div>
         </nav>
 
-        <div class="offcanvas offcanvas-start bg-body" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas offcanvas-start bg-dark" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Laravel Project</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close  btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
           </div>
-          <div class="offcanvas-body">
-            <a class="list-group-item list-group-item-action mb-3" href="{{route('profile.index')}}">Profile</a>
-            <a class="list-group-item list-group-item-action mb-3" href="{{route('posts.index')}}">All Posts</a>
-            <a class="list-group-item list-group-item-action mb-3" href="{{route('posts.deleted-posts')}}">Deleted Posts</a>
-            <a class="list-group-item list-group-item-action mb-3" href="{{route('posts.create')}}"> Create Post</a>
+          <div class="offcanvas-body d-flex align-items-center flex-column">
+          <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle mb-3" style="width: 150px;"
+             alt="Avatar" /> 
+            <a class="list-group-item list-group-item-action border-success border-4 mb-3" href="{{route('profile.index')}}">Profile</a>
+            <a class="list-group-item list-group-item-action border-success border-4 mb-3" href="{{route('posts.index')}}">All Posts</a>
+            <a class="list-group-item list-group-item-action border-success border-4 mb-3" href="{{route('posts.deleted-posts')}}">Deleted Posts</a>
+            <a class="list-group-item list-group-item-action border-success border-4 mb-3" href="{{route('posts.create')}}"> Create Post</a>
           
            </div>
         </div>
