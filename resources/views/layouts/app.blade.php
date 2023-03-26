@@ -21,7 +21,7 @@
     <style>
     body{
 
-        background-color: #BDCDD6;
+        background-color: #fffff2;
     }
    </style>
 </head>
@@ -90,7 +90,9 @@
              <img src="{{asset(Auth::user()->profile->getFirstMediaUrl('profile_image')) }}" alt="Profile Image" class="rounded-circle mb-3" style="width: 150px; height:150px; object-fit: cover;">
              @endif
              @endif
+             <h3 style="color:white">{{Auth::user()->name}}</h3>
              @endif
+
             <a class="list-group-item list-group-item-action border-success border-4 mb-3 " href="{{route('profile.index')}}">Profile</a>
             <a class="list-group-item list-group-item-action border-success border-4 mb-3 " href="{{route('posts.create')}}"> Create Post</a>
             <a class="list-group-item list-group-item-action border-success border-4 mb-3 " href="{{route('posts.index')}}">All Posts</a>

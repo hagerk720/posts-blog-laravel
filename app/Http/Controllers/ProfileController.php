@@ -20,7 +20,7 @@ class ProfileController extends Controller
             ['user_id' => $user->id],
         [   
             'address' => $request -> address,   
-            'photo' => 'null',
+            // 'photo' => 'null',
         ]
     );
         $user->name = $request['name'];

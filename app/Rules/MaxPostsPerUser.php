@@ -22,7 +22,7 @@ class MaxPostsPerUser implements ValidationRule
     {
         $user = Auth::user();
         $postCount = Post::where('user_id', $user->id)->count();
-        return $postCount < 2;
+        return $postCount < 200;
     }
 
     public function message()

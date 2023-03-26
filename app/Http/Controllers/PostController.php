@@ -37,24 +37,24 @@ class PostController extends Controller
     public function store(StorePostRequest $request){  
         $maxPosts=new MaxPostsPerUser(); 
         
-if($maxPosts->passes('Max_Posts_Per_User',$request))
- {
-    $post = new Post();
-    $post->title = $request->title;
-    $post->description = $request->description;
-    $post->user_id = $request->creator;
-    $tagNames  = explode(",", $request ->tags);
-    if ($request->hasFile('image')) {
-        $post->image =  $request->file('image');
-    }
-    $post->save();
-    $tags = Tag::findOrCreate($tagNames);
-    $post -> attachTags($tags);
-    return redirect() -> route('posts.index');
-}
-else{
-    return redirect() -> back()->with('message',$maxPosts->message());
-}
+        if($maxPosts->passes('Max_Posts_Per_User',$request))
+         {
+            $post = new Post();
+            $post->title = $request->title;
+            $post->description = $request->description;
+            $post->user_id = $request->creator;
+            $tagNames  = explode(",", $request ->tags);
+            if ($request->hasFile('image')) {
+                $post->image =  $request->file('image');
+            }
+            $post->save();
+            $tags = Tag::findOrCreate($tagNames);
+            $post -> attachTags($tags);
+            return redirect() -> route('posts.index');
+        }
+        else{
+            return redirect() -> back()->with('message',$maxPosts->message());
+        }
     }
     public function update(StorePostRequest $request ,$id )
     {
@@ -62,9 +62,7 @@ else{
         $post->title = $request->title;
         $post->description = $request->description;
         $post->user_id = $request->creator;
-        if ($request ->tags) {
-             $tagNames  = explode(",", $request ->tags);
-            }
+        $tagNames  = explode(",", $request ->tags);
         if($request->hasFile('image')){
             $post->image =  $request->file('image');
         }
@@ -84,7 +82,37 @@ else{
     }
     public function restore($id){
         Post::withTrashed()->find($id)->restore();
-        return redirect() -> route('posts.index');
+        return redirect()->route('posts.index')
+        ->with('success', 'the post has been restored.');
+    }
+    public function destroy($id){
+        Post::withTrashed()->find($id)->forceDelete();
+        return redirect()->route('posts.index')
+                         ->with('success', 'the post has been permanently deleted.');
+    }
+
+
+    public function restoreAll(){
+        $posts = Post::onlyTrashed()->get();
+
+        foreach ($posts as $post) {
+            $post->restore();
+        }
+    
+        return redirect()->route('posts.index')
+                         ->with('success', 'All deleted posts have been restored.');
+    }
+    public function destroyAll(){
+
+        $posts = Post::onlyTrashed()->get();
+
+        foreach ($posts as $post) {
+            $post->forceDelete();
+        }
+    
+        return redirect()->route('posts.index')
+                         ->with('success', 'All deleted posts have been permanently deleted.');
+
     }
     public function detachTag(Request $request,Post $post, Tag $tag)
     {

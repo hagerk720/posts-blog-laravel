@@ -4,7 +4,13 @@
 
 @section('content')
     <div>
+@if(session('success'))
+<div class="alert alert-success">
+{{session('success')}}
+</div>
+@endif    
 
+<a class="btn btn-outline-success mt-4 fw-bold w-25 align-self-center" href="{{route('posts.create')}}"> Create Post</a>
     <table class="table mt-4 table-auto">
         <thead class="table-dark">
         <tr>

@@ -22,12 +22,13 @@ class StorePostRequest extends FormRequest
      */
     public function rules(): array
     {
-        // dd($this->post);
+        // dd($this->all());
         return [
             'title' =>'required|min:3|unique:posts,title,' . $this->post,
             'description' =>'required|min:10',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'Max_Posts_Per_User'=>new MaxPostsPerUser,
+            'user_id' =>'exists:App\Models\User,id',
+            'creator'=>new MaxPostsPerUser,
             ];
     }
 }

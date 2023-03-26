@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->job(dispatch(new PruneOldPostsJob()))->daily();    }
+        $schedule->job((new PruneOldPostsJob()))->daily();    }
 
     /**
      * Register the commands for the application.
