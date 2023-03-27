@@ -11,15 +11,29 @@ use App\Rules\MaxPostsPerUser;
 use Illuminate\Http\Request;
 use Spatie\Tags\HasTags;
 use Spatie\Tags\Tag;
+use Yajra\DataTables\Facades\DataTables;
 
 class PostController extends Controller
 {
     
-    public function index()
+    public function index(Request $request)
     {
         // $allPosts = Post::all();
         $allPosts = Post::orderBy('id', 'desc')->paginate(5);
         return view('post.index', ['posts' => $allPosts]);
+
+        // if ($request->ajax()) {
+        //     $data = Post::latest()->get();
+        //     return DataTables::of($data)
+        //         ->addIndexColumn()
+        //         ->addColumn('action', function($row){
+        //             $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm" href="{{ route(`posts.edit`, $post[`id`]) }} ">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+        //             return $actionBtn;
+        //         })
+        //         ->rawColumns(['action'])
+        //         ->make(true);                
+        // }
+        // return view('post.index');
     }
     public function show($id)
     {     
@@ -37,12 +51,13 @@ class PostController extends Controller
     public function store(StorePostRequest $request){  
         $maxPosts=new MaxPostsPerUser(); 
         
-        if($maxPosts->passes('Max_Posts_Per_User',$request))
-         {
+        // if($maxPosts->passes('Max_Posts_Per_User',$request))
+        //  {
+            $validated  =  $request->validated();
             $post = new Post();
-            $post->title = $request->title;
-            $post->description = $request->description;
-            $post->user_id = $request->creator;
+            $post->title = $validated['title'];
+            $post->description = $validated['description'];
+            $post->user_id = $validated['creator'];
             $tagNames  = explode(",", $request ->tags);
             if ($request->hasFile('image')) {
                 $post->image =  $request->file('image');
@@ -51,10 +66,10 @@ class PostController extends Controller
             $tags = Tag::findOrCreate($tagNames);
             $post -> attachTags($tags);
             return redirect() -> route('posts.index');
-        }
-        else{
-            return redirect() -> back()->with('message',$maxPosts->message());
-        }
+        // }
+        // else{
+        //     return redirect() -> back()->with('message',$maxPosts->message());
+        // }
     }
     public function update(StorePostRequest $request ,$id )
     {

@@ -77,4 +77,3 @@
                     <!-- @endforeach -->
 
 @endsection
-

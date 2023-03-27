@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\Post;
+use App\Models\User;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Auth;
@@ -14,15 +15,13 @@ class MaxPostsPerUser implements ValidationRule
      *
      * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
+    public $user ; 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        //
-    }
-    public function passes($attribute, $value)
-    {
-        $user = Auth::user();
-        $postCount = Post::where('user_id', $user->id)->count();
-        return $postCount < 200;
+        $this->user = User::find($value);
+        if(Post::where('user_id', $this-> user->id)->count() >= 3){
+          $fail("Sorry, User \"{$this->user["name"]}\" Exceed the max posts number");
+        }
     }
 
     public function message()
