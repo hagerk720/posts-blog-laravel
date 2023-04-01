@@ -40,30 +40,5 @@ This project makes use of the following packages:
 | laravel-tags |  taggable behaviour  |
 | Laravel-medialibrary |  Associate files with Eloquent models  |
 
-## Laravel-medialibrary enhancement
 
-A custom URL generator is added to include the port number in the image URL. This is implemented using the following code:
-```
-class CustomUrlGenerator extends DefaultUrlGenerator
-{
-    public function getUrl(): string
-    {
-        $url = parent::getUrl();
-
-        $urlParts = parse_url($url);
-
-        if (isset($urlParts['port'])) {
-            return $url;
-        }
-
-        $port = Request::getPort();
-
-        if ($port) {
-            $urlParts['port'] = $port;
-        }
-
-        return http_build_url('', $urlParts);
-    }
-}
-```
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
